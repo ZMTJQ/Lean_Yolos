@@ -1,1 +1,22 @@
+name: Lean Autograder
 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  autograde:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Lean
+        run: |
+          curl https://leanprover.github.io/lean4/install.sh | bash
+          leanpkg configure
+
+      - name: Run Lean autograder
+        run: |
+          lean --run path/to/autograder.lean
